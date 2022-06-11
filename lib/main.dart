@@ -1,3 +1,4 @@
+import 'package:demo/ListItem.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -7,23 +8,11 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: const MyHomePage(title: 'Flutter Demo - Kanban'),
     );
   }
@@ -36,17 +25,21 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => MyHomePageState();
 
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
   
   int intPendientes = 0;
   int intEnCurso = 0;
   int intFinalizadas = 0;
   int _selectedIndex = 0;
   int _counter = 0;
+
+  MyHomePageState(){
+
+  }
 
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
@@ -134,32 +127,23 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+    ListItem listItem = ListItem(this);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _widgetOptions.elementAt(_selectedIndex),
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+        child: listItem
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _saludar,
+        onPressed: (){listItem.addItem("task");},
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -179,10 +163,11 @@ class _MyHomePageState extends State<MyHomePage> {
         selectedItemColor: Color.fromARGB(255, 0, 132, 255),
         onTap: _onItemTapped,
       ),
-    );
-    
-  
-  
+    );    
+  }
+
+  void sentItemToInProcess(String strTask){
+    print(strTask);
   }
 }
 
